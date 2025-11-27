@@ -16,6 +16,7 @@ qt_wrap_cpp(QT_MOC_SRCS
 
 add_executable(animecho
   ${QT_MOC_SRCS}
+  common.cc
   first.cc
   animecho.cc)
 

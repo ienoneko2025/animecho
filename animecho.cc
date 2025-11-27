@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include <string.h>
 
 #include <qapplication.h>
 
@@ -8,13 +7,12 @@
 # include <X11/Xlib.h>
 #endif
 
+#include "common.h"
 #include "first.h"
 
 int
 main ()
 {
-  int unused_0;
-  char unused_1[16];
   QApplication *app;
   scr_first *first;
 
@@ -26,9 +24,7 @@ main ()
   XInitThreads();
 #endif
 
-  unused_0 = 1;
-  strcpy(unused_1, "./this.program");
-  app = new QApplication(unused_0, (char *[]){unused_1, nullptr});
+  app = create_qapplication();
 
   app->setApplicationName("animecho");
 
