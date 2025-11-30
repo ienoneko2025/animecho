@@ -19,7 +19,7 @@ class LoaderDialog(QWidget):
     self.__ui.setupUi(self)
 
     self.__user_file_path: Optional[str] = None
-    self.__user_pref: Optional[UserPreferences] = None
+    self.__pref: Optional[UserPreferences] = None
 
     self.__ui.btnPickAnnotationFile.clicked.connect(self.__do_pick_annotation_file)
     self.__ui.btnPickVidFile.clicked.connect(self.__do_pick_vid_file)
@@ -37,7 +37,7 @@ class LoaderDialog(QWidget):
 
     self.__ui.btnOK.setEnabled(False)
 
-    self.__user_pref = None
+    self.__pref = None
     self.__user_file_path = f'{path}.user'
 
     self.__ui.fieldVidFileUrl.clear()
@@ -46,12 +46,12 @@ class LoaderDialog(QWidget):
 
     if exists(self.__user_file_path):
       try:
-        self.__user_pref = UserPreferences.load(self.__user_file_path)
+        self.__pref = UserPreferences.load(self.__user_file_path)
       except OSError:
         print_exc()
       else:
-        if self.__user_pref.last_vid_path is not None and exists(self.__user_pref.last_vid_path):
-          self.__set_vid_file_path(self.__user_pref.last_vid_path)
+        if self.__pref.last_vid_path is not None and exists(self.__pref.last_vid_path):
+          self.__set_vid_file_path(self.__pref.last_vid_path)
 
     self.__ui.btnPickVidFile.setEnabled(True)
 
@@ -80,7 +80,7 @@ class LoaderDialog(QWidget):
     player = PlayerWindow(annotations, vid_url)
     player.show()
 
-    pref = self.__user_pref if self.__user_pref is not None else UserPreferences()
+    pref = self.__pref if self.__pref is not None else UserPreferences()
     pref.last_vid_path = vid_path
 
     # XXX: config is always saved even if the video didn't play
