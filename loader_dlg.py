@@ -2,7 +2,7 @@ from os.path import exists
 from traceback import format_exc, print_exc
 from typing import Optional
 
-from PySide6.QtCore import Slot, QUrl
+from PySide6.QtCore import Slot, QEventLoop, QUrl
 from PySide6.QtWidgets import QFileDialog, QMessageBox, QWidget
 
 from ui_loader_dlg import Ui_LoaderDialog
@@ -31,7 +31,7 @@ class LoaderDialog(QWidget):
 
   @Slot()
   def __do_pick_annotation_file(self):
-    path = QFileDialog.getOpenFileName(self, filter='Annotation Files (*.annotations)')
+    path, _ = QFileDialog.getOpenFileName(self, filter='Annotation Files (*.annotations)')
     if path == '':
       return
 
@@ -57,7 +57,7 @@ class LoaderDialog(QWidget):
 
   @Slot()
   def __do_pick_vid_file(self):
-    path = QFileDialog.getOpenFileName(self, filter='Video Files (*.mp4 *.mkv)')
+    path, _ = QFileDialog.getOpenFileName(self, filter='Video Files (*.mp4 *.mkv)')
     if path != '':
       self.__set_vid_file_path(path)
 
@@ -92,3 +92,5 @@ class LoaderDialog(QWidget):
       print_exc()
 
     self.close()
+
+    QEventLoop().exec()

@@ -30,11 +30,11 @@ class PlayerWindow(QWidget):
 
           if casted.modifiers() == Qt.KeyboardModifier.NoModifier:
             match casted.key():
-              case Qt.Key.KEY_F:
+              case Qt.Key.Key_F:
                 self.toggleFullscreen.emit()
                 return True
 
-              case Qt.Key.KEY_Q:
+              case Qt.Key.Key_Q:
                 self.quitRequest.emit()
                 return True
 
@@ -49,7 +49,7 @@ class PlayerWindow(QWidget):
     self.__ui.setupUi(self)
 
     self.__ao = QAudioOutput()
-    self.__mp = QMediaPlayer(source=vid_url, audioOutput=self.__ao)
+    self.__mp = QMediaPlayer(source=vid_url, audioOutput=self.__ao, videoOutput=self.__ui.vidWidget)
     # TODO: handle errors
 
     self.__ctrls = self._PlayerControllings()
@@ -58,7 +58,7 @@ class PlayerWindow(QWidget):
     self.__ctrls.quitRequest.connect(self.__do_quit)
     self.__ui.vidWidget.installEventFilter(self.__ctrls)
 
-    self.__toggle_side_bar = QShortcut(Qt.KeyboardModifier.ControlModifier | Qt.Key.KEY_B, self)
+    self.__toggle_side_bar = QShortcut(Qt.KeyboardModifier.ControlModifier | Qt.Key.Key_B, self)
     self.__toggle_side_bar.activated.connect(self.__do_toggle_side_bar)
 
   @Slot()

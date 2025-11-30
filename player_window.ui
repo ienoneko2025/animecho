@@ -15,7 +15,11 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout" stretch="2,1">
    <item>
-    <widget class="QVideoWidget" name="vidWidget"/>
+    <widget class="QVideoWidget" name="vidWidget">
+     <property name="focusPolicy">
+      <enum>Qt::FocusPolicy::ClickFocus</enum>
+     </property>
+    </widget>
    </item>
    <item>
     <widget class="QWebEngineView" name="webView"/>
