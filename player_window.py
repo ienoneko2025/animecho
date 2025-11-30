@@ -49,6 +49,10 @@ class PlayerWindow(QWidget):
                 self.quitRequest.emit()
                 return True
 
+              case Qt.Key.Key_Space:
+                self.playOrPause.emit()
+                return True
+
       return QObject.eventFilter(self, watched, event)
 
   # TODO: allowing changing these so instance can
