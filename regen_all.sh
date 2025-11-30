@@ -19,5 +19,13 @@ dropout_forms=('player_window'
                'loader_dlg')
 
 for dropout_form in "${dropout_forms[@]}"; do
-  (set -x && uic --no-autoconnection -g python -o "ui_${dropout_form}.py" "${dropout_form}.ui")
+  dropout_out="ui_${dropout_form}.py"
+  dropout_src="${dropout_form}.ui"
+
+  if [ -e "$dropout_out" -a "$dropout_src" -ot "$dropout_out" -a "$dropout_out" -nt "$(which uic)" ]; then
+    # already up-to-date
+    continue
+  fi
+
+  (set -x && uic --no-autoconnection -g python -o "$dropout_out" "$dropout_src")
 done
