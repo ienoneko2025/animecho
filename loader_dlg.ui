@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Load…</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,1,0">
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,1,0">
    <item>
     <layout class="QHBoxLayout" name="rowSelAnnotationFile" stretch="0,1,0">
      <item>
@@ -77,6 +77,59 @@
     </layout>
    </item>
    <item>
+    <layout class="QHBoxLayout" name="rowSelProgMode" stretch="0,0,0,1">
+     <item>
+      <widget class="QLabel" name="headerOpenInWhere">
+       <property name="text">
+        <string>Open in:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="radioBtnUsePlayer">
+       <property name="text">
+        <string>Player</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+       <property name="autoExclusive">
+        <bool>false</bool>
+       </property>
+       <attribute name="buttonGroup">
+        <string notr="true">btnGrpOpenInWhere</string>
+       </attribute>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="radioBtnUseEditor">
+       <property name="text">
+        <string>Editor</string>
+       </property>
+       <property name="autoExclusive">
+        <bool>false</bool>
+       </property>
+       <attribute name="buttonGroup">
+        <string notr="true">btnGrpOpenInWhere</string>
+       </attribute>
+      </widget>
+     </item>
+     <item>
+      <spacer name="openInWhereRightPadding">
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
     <spacer name="dlgBtnsTopPadding">
      <property name="orientation">
       <enum>Qt::Orientation::Vertical</enum>
@@ -90,7 +143,7 @@
     </spacer>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="rowDlgBtns" stretch="1,0">
+    <layout class="QHBoxLayout" name="rowDlgBtns" stretch="1,0,0">
      <item>
       <spacer name="dlgBtnsLeftPadding">
        <property name="orientation">
@@ -103,6 +156,13 @@
         </size>
        </property>
       </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnCreateNew">
+       <property name="text">
+        <string>Create New…</string>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="btnOK">
@@ -120,4 +180,7 @@
  </widget>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="btnGrpOpenInWhere"/>
+ </buttongroups>
 </ui>
