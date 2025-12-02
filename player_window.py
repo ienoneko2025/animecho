@@ -1,7 +1,7 @@
 from typing import cast, override
 
 from PySide6.QtCore import Qt, QEvent, QObject, QUrl, Signal, Slot
-from PySide6.QtGui import QCloseEvent, QKeyEvent, QMouseEvent, QShortcut
+from PySide6.QtGui import QCloseEvent, QMouseEvent
 from PySide6.QtMultimedia import QAudioOutput, QMediaPlayer
 from PySide6.QtWebEngineCore import QWebEngineUrlScheme
 from PySide6.QtWidgets import QMainWindow
@@ -20,10 +20,9 @@ class PlayerWindow(QMainWindow):
 
   playerQuit = Signal()
 
-  class _PlayerControllings(QObject):
+  class _PlayerMouseControls(QObject):
     toggleFullscreen = Signal()
     playOrPause = Signal()
-    quitRequest = Signal()
 
     @override
     def eventFilter(self, watched: QObject, event: QEvent) -> bool:
@@ -44,23 +43,6 @@ class PlayerWindow(QMainWindow):
               self.playOrPause.emit()
               return True
 
-        case QEvent.Type.KeyPress:
-          casted = cast(QKeyEvent, event)
-
-          if casted.modifiers() == Qt.KeyboardModifier.NoModifier:
-            match casted.key():
-              case Qt.Key.Key_F:
-                self.toggleFullscreen.emit()
-                return True
-
-              case Qt.Key.Key_Q:
-                self.quitRequest.emit()
-                return True
-
-              case Qt.Key.Key_Space:
-                self.playOrPause.emit()
-                return True
-
       return QObject.eventFilter(self, watched, event)
 
   # TODO: allowing changing these so instance can
@@ -75,14 +57,17 @@ class PlayerWindow(QMainWindow):
     self.__mp = QMediaPlayer(source=vid_url, audioOutput=self.__ao, videoOutput=self.__ui.vidWidget)
     # TODO: handle errors
 
-    self.__ctrls = self._PlayerControllings()
-    self.__ctrls.toggleFullscreen.connect(self.__do_toggle_fullscreen)
-    self.__ctrls.playOrPause.connect(self.__do_play_or_pause)
-    self.__ctrls.quitRequest.connect(self.__do_quit)
-    self.__ui.vidWidget.installEventFilter(self.__ctrls)
+    self.__mouse_ctrls = self._PlayerMouseControls()
+    self.__mouse_ctrls.toggleFullscreen.connect(self.__do_toggle_fullscreen)
+    self.__mouse_ctrls.playOrPause.connect(self.__do_play_or_pause)
+    self.__ui.vidWidget.installEventFilter(self.__mouse_ctrls)
 
-    self.__side_bar_toggle = QShortcut(Qt.KeyboardModifier.ControlModifier | Qt.Key.Key_B, self)
-    self.__side_bar_toggle.activated.connect(self.__do_toggle_side_bar)
+    self.__ui.actionQuit.triggered.connect(self.__do_quit)
+    self.__ui.actionPlayPause.triggered.connect(self.__do_play_or_pause)
+    self.__ui.actionFullscreen.triggered.connect(self.__do_toggle_fullscreen)
+    self.__ui.actionSideBar.triggered.connect(self.__do_toggle_side_bar)
+
+    self.__ui.vidWidget.setFocus()
 
   @override
   def closeEvent(self, event: QCloseEvent):
@@ -92,6 +77,12 @@ class PlayerWindow(QMainWindow):
     self.playerQuit.emit()
 
     QMainWindow.closeEvent(self, event)
+
+  @override
+  def changeEvent(self, event: QEvent):
+    match event.type():
+      case QEvent.Type.WindowStateChange:
+        self.__ui.actionFullscreen.setChecked(bool(self.windowState() & Qt.WindowState.WindowFullScreen))
 
   @Slot()
   def __do_toggle_fullscreen(self):
