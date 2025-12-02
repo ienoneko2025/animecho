@@ -59,6 +59,7 @@
      <string>&amp;View</string>
     </property>
     <addaction name="actionFullscreen"/>
+    <addaction name="separator"/>
     <addaction name="actionSideBar"/>
    </widget>
    <addaction name="appMenu"/>
