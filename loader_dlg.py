@@ -1,3 +1,5 @@
+import enum
+from enum import Enum
 from os.path import exists
 from traceback import format_exc, print_exc
 from typing import Optional
@@ -13,6 +15,10 @@ from player_window import PlayerWindow
 from user_preferences import UserPreferences
 
 class LoaderDialog(QWidget):
+  class ProgramMode(Enum):
+    PLAYER = enum.auto()
+    EDITOR = enum.auto()
+
   class _WaitPlayer(QEventLoop):
     def __init__(self, player: PlayerWindow):
       QEventLoop.__init__(self)
@@ -35,6 +41,13 @@ class LoaderDialog(QWidget):
     self.__ui.btnPickAnnotationFile.clicked.connect(self.__do_pick_annotation_file)
     self.__ui.btnPickVidFile.clicked.connect(self.__do_pick_vid_file)
     self.__ui.btnOK.clicked.connect(self.__do_jump_to_player)
+
+  def setProgramMode(self, mode: ProgramMode):
+    match mode:
+      case self.ProgramMode.PLAYER:
+        self.__ui.radioBtnUsePlayer.setChecked(True)
+      case self.ProgramMode.EDITOR:
+        self.__ui.radioBtnUseEditor.setChecked(True)
 
   def __set_vid_file_path(self, path: str):
     self.__ui.fieldVidFileUrl.setText(path)
