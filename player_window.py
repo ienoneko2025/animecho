@@ -28,6 +28,14 @@ class PlayerWindow(QMainWindow):
     @override
     def eventFilter(self, watched: QObject, event: QEvent) -> bool:
       match event.type():
+        case QEvent.Type.MouseButtonDblClick:
+          casted = cast(QMouseEvent, event)
+
+          match casted.button():
+            case Qt.MouseButton.LeftButton:
+              self.toggleFullscreen.emit()
+              return True
+
         case QEvent.Type.MouseButtonPress:
           casted = cast(QMouseEvent, event)
 
