@@ -5,7 +5,7 @@ from traceback import format_exc, print_exc
 from typing import Optional
 
 from PySide6.QtCore import QEventLoop, QUrl, Slot
-from PySide6.QtWidgets import QFileDialog, QMessageBox, QWidget
+from PySide6.QtWidgets import QFileDialog, QMessageBox, QStyle, QWidget
 
 from ui_loader_dlg import Ui_LoaderDialog
 
@@ -37,6 +37,8 @@ class LoaderDialog(QWidget):
 
     self.__user_file_path: Optional[str] = None
     self.__pref: Optional[UserPreferences] = None
+
+    self.__ui.btnOK.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_DialogOkButton))
 
     self.__ui.btnPickAnnotationFile.clicked.connect(self.__do_pick_annotation_file)
     self.__ui.btnPickVidFile.clicked.connect(self.__do_pick_vid_file)

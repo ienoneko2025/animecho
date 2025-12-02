@@ -38,6 +38,9 @@
        <property name="text">
         <string>Browse…</string>
        </property>
+       <property name="icon">
+        <iconset theme="QIcon::ThemeIcon::DocumentOpen"/>
+       </property>
       </widget>
      </item>
     </layout>
@@ -71,6 +74,9 @@
        </property>
        <property name="text">
         <string>Browse…</string>
+       </property>
+       <property name="icon">
+        <iconset theme="QIcon::ThemeIcon::DocumentOpen"/>
        </property>
       </widget>
      </item>
@@ -161,6 +167,9 @@
       <widget class="QPushButton" name="btnCreateNew">
        <property name="text">
         <string>Create New…</string>
+       </property>
+       <property name="icon">
+        <iconset theme="QIcon::ThemeIcon::DocumentNew"/>
        </property>
       </widget>
      </item>
