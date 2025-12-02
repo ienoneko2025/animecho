@@ -4,7 +4,7 @@ from PySide6.QtCore import Qt, QEvent, QObject, QUrl, Signal, Slot
 from PySide6.QtGui import QCloseEvent, QKeyEvent, QMouseEvent, QShortcut
 from PySide6.QtMultimedia import QAudioOutput, QMediaPlayer
 from PySide6.QtWebEngineCore import QWebEngineUrlScheme
-from PySide6.QtWidgets import QWidget
+from PySide6.QtWidgets import QMainWindow
 
 from ui_player_window import Ui_PlayerWindow
 
@@ -15,7 +15,7 @@ def _setup_qrc_for_webview():
   scheme.setFlags(QWebEngineUrlScheme.Flag.SecureScheme | QWebEngineUrlScheme.Flag.ViewSourceAllowed | QWebEngineUrlScheme.Flag.FetchApiAllowed)
   QWebEngineUrlScheme.registerScheme(scheme)
 
-class PlayerWindow(QWidget):
+class PlayerWindow(QMainWindow):
   _setup_qrc_for_webview()
 
   playerQuit = Signal()
@@ -58,7 +58,7 @@ class PlayerWindow(QWidget):
   # TODO: allowing changing these so instance can
   #       be reused thus reducing webview load-time?
   def __init__(self, annotations: Annotations, vid_url: QUrl):
-    QWidget.__init__(self)
+    QMainWindow.__init__(self)
 
     self.__ui = Ui_PlayerWindow()
     self.__ui.setupUi(self)
@@ -83,7 +83,7 @@ class PlayerWindow(QWidget):
 
     self.playerQuit.emit()
 
-    QWidget.closeEvent(self, event)
+    QMainWindow.closeEvent(self, event)
 
   @Slot()
   def __do_toggle_fullscreen(self):

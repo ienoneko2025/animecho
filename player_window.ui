@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0" connectslotsbyname="false">
  <class>PlayerWindow</class>
- <widget class="QWidget" name="PlayerWindow">
+ <widget class="QMainWindow" name="PlayerWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -13,24 +13,36 @@
   <property name="windowTitle">
    <string>Player</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout" stretch="2,1">
-   <item>
-    <widget class="QVideoWidget" name="vidWidget">
-     <property name="focusPolicy">
-      <enum>Qt::FocusPolicy::ClickFocus</enum>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QWebEngineView" name="webView">
-     <property name="url">
-      <url>
-       <string>qrc:/animecho/dialogue_view.html</string>
-      </url>
-     </property>
-    </widget>
-   </item>
-  </layout>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QHBoxLayout" name="horizontalLayout" stretch="2,1">
+    <item>
+     <widget class="QVideoWidget" name="vidWidget">
+      <property name="focusPolicy">
+       <enum>Qt::FocusPolicy::ClickFocus</enum>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QWebEngineView" name="webView">
+      <property name="url">
+       <url>
+        <string>qrc:/animecho/dialogue_view.html</string>
+       </url>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>34</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <customwidgets>
   <customwidget>
