@@ -8,6 +8,7 @@ from PySide6.QtWidgets import QFileDialog, QMessageBox, QWidget
 from ui_loader_dlg import Ui_LoaderDialog
 
 from annotations import Annotations, AnnotationParseError
+import configparser
 from player_window import PlayerWindow
 from user_preferences import UserPreferences
 
@@ -57,6 +58,8 @@ class LoaderDialog(QWidget):
     if exists(self.__user_file_path):
       try:
         self.__pref = UserPreferences.load(self.__user_file_path)
+      except configparser.Error:
+        print_exc()
       except OSError:
         print_exc()
       else:
