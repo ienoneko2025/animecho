@@ -36,6 +36,7 @@ def _main():
   _assert_qt_ver()
 
   app = QApplication([])
+  app.setApplicationName('animecho')
 
   ap = ArgumentParser()
   ap.add_argument('ANNOTATION_FILE', nargs='?')

@@ -11,6 +11,7 @@ from ui_loader_dlg import Ui_LoaderDialog
 
 from annotations import Annotations, AnnotationParseError
 import configparser
+from new_annotation_wizard import NewAnnotationWizard
 from player_window import PlayerWindow
 from user_preferences import UserPreferences
 
@@ -42,6 +43,7 @@ class LoaderDialog(QWidget):
 
     self.__ui.btnPickAnnotationFile.clicked.connect(self.__do_pick_annotation_file)
     self.__ui.btnPickVidFile.clicked.connect(self.__do_pick_vid_file)
+    self.__ui.btnCreateNew.clicked.connect(self.__do_jump_to_wizard)
     self.__ui.btnOK.clicked.connect(self.__do_jump_to_player)
 
   def setProgramMode(self, mode: ProgramMode):
@@ -88,6 +90,15 @@ class LoaderDialog(QWidget):
     path, _ = QFileDialog.getOpenFileName(self, filter='Video Files (*.mp4 *.mkv)')
     if path != '':
       self.__set_vid_file_path(path)
+
+  @Slot()
+  def __do_jump_to_wizard(self):
+    wizard = NewAnnotationWizard()
+    wizard.show()
+
+    self.close()
+
+    QEventLoop().exec()
 
   @Slot()
   def __do_jump_to_player(self):

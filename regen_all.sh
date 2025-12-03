@@ -20,6 +20,7 @@ for dropout_qt_tool in "${dropout_qt_tools[@]}"; do
 done
 
 dropout_forms=('player_window'
+               'new_annotation_wizard'
                'loader_dlg')
 
 for dropout_form in "${dropout_forms[@]}"; do
