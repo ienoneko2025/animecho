@@ -1,7 +1,13 @@
-from PySide6.QtCore import Slot
+from traceback import print_exc
+
+from PySide6.QtCore import QUrl, QEventLoop, Slot
 from PySide6.QtWidgets import QFileDialog, QMessageBox, QStyle, QWidget
 
 from ui_new_annotation_wizard import Ui_NewAnnotationWizard
+
+from annotations import Annotations
+from editor_window import EditorWindow
+from user_preferences import UserPreferences
 
 class NewAnnotationWizard(QWidget):
   def __init__(self):
@@ -35,10 +41,28 @@ class NewAnnotationWizard(QWidget):
 
   @Slot()
   def __do_jump_to_editor(self):
-    if self.__ui.fieldSaveLocationUrl.text() == '':
+    save_location = self.__ui.fieldSaveLocationUrl.text()
+
+    if save_location == '':
       QMessageBox.warning(self, '', 'Please select a save location')
       return
 
-    if self.__ui.fieldVidFileUrl.text() == '':
+    vid_path = self.__ui.fieldVidFileUrl.text()
+
+    if vid_path == '':
       QMessageBox.warning(self, '', 'Please select a video file')
       return
+
+    editor = EditorWindow(Annotations(), save_location, QUrl.fromLocalFile(vid_path))
+    editor.show()
+
+    pref = UserPreferences()
+    pref.last_vid_path = vid_path
+    try:
+      pref.save(f'{save_location}.user')
+    except OSError:
+      print_exc()
+
+    self.close()
+
+    QEventLoop().exec()

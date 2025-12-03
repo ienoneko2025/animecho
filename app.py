@@ -16,6 +16,7 @@ from PySide6.QtCore import qVersion, QUrl
 from PySide6.QtWidgets import QApplication
 
 from annotations import Annotations, AnnotationParseError
+from editor_window import EditorWindow
 from loader_dlg import LoaderDialog
 from player_window import PlayerWindow
 from user_preferences import UserPreferences
@@ -82,8 +83,14 @@ def _main():
         else:
           ap.error('Please specify a video file')
 
-      player = PlayerWindow(annotation, QUrl.fromLocalFile(vid_path))
-      player.show()
+      vid_url = QUrl.fromLocalFile(vid_path)
+
+      if args.editor:
+        editor = EditorWindow(annotation, args.ANNOTATION_FILE, vid_url)
+        editor.show()
+      else:
+        player = PlayerWindow(annotation, vid_url)
+        player.show()
 
       pref.last_vid_path = vid_path
 

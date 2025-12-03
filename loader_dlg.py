@@ -11,6 +11,7 @@ from ui_loader_dlg import Ui_LoaderDialog
 
 from annotations import Annotations, AnnotationParseError
 import configparser
+from editor_window import EditorWindow
 from new_annotation_wizard import NewAnnotationWizard
 from player_window import PlayerWindow
 from user_preferences import UserPreferences
@@ -102,8 +103,10 @@ class LoaderDialog(QWidget):
 
   @Slot()
   def __do_jump_to_player(self):
+    annotation_path = self.__ui.fieldAnnotationFileUrl.text()
+
     try:
-      annotations = Annotations.load(self.__ui.fieldAnnotationFileUrl.text())
+      annotations = Annotations.load(annotation_path)
     except AnnotationParseError:
       QMessageBox.warning(self, 'Invalid annotation file', format_exc())
       return
@@ -114,8 +117,13 @@ class LoaderDialog(QWidget):
     vid_path = self.__ui.fieldVidFileUrl.text()
     vid_url = QUrl.fromLocalFile(vid_path)
 
-    player = PlayerWindow(annotations, vid_url)
-    player.show()
+    if open_player := self.__ui.radioBtnUsePlayer.isChecked():
+      player = PlayerWindow(annotations, vid_url)
+      player.show()
+    else:
+      assert self.__ui.radioBtnUseEditor.isChecked()
+      editor = EditorWindow(annotations, annotation_path, vid_url)
+      editor.show()
 
     pref = self.__pref if self.__pref is not None else UserPreferences()
     pref.last_vid_path = vid_path
@@ -130,6 +138,8 @@ class LoaderDialog(QWidget):
 
     self.close()
 
-    self._WaitPlayer(player).exec()
-
-    self.show()
+    if open_player:
+      self._WaitPlayer(player).exec()
+      self.show()
+    else:
+      QEventLoop().exec()
