@@ -62,9 +62,18 @@
     <addaction name="separator"/>
     <addaction name="actionSideBar"/>
    </widget>
+   <widget class="QMenu" name="helpMenu">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+    <addaction name="separator"/>
+    <addaction name="actionAboutQt"/>
+   </widget>
    <addaction name="appMenu"/>
    <addaction name="playbackMenu"/>
    <addaction name="viewMenu"/>
+   <addaction name="helpMenu"/>
   </widget>
   <action name="actionQuit">
    <property name="icon">
@@ -114,6 +123,22 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+B</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>&amp;About…</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::AboutRole</enum>
+   </property>
+  </action>
+  <action name="actionAboutQt">
+   <property name="text">
+    <string>About Qt</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::AboutQtRole</enum>
    </property>
   </action>
  </widget>

@@ -13,6 +13,7 @@ from re import match
 from traceback import print_exc
 
 from PySide6.QtCore import qVersion, QUrl
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication
 
 from annotations import Annotations, AnnotationParseError
@@ -38,6 +39,7 @@ def _main():
 
   app = QApplication([])
   app.setApplicationName('animecho')
+  app.setWindowIcon(QIcon(':/animecho/icon.png'))
 
   ap = ArgumentParser()
   ap.add_argument('ANNOTATION_FILE', nargs='?')

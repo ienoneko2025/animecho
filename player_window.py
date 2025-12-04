@@ -8,6 +8,7 @@ from PySide6.QtWidgets import QMainWindow, QMessageBox
 
 from ui_player_window import Ui_PlayerWindow
 
+from about_window import AboutWindow
 from annotations import Annotations
 
 def _setup_qrc_for_webview():
@@ -66,6 +67,8 @@ class PlayerWindow(QMainWindow):
     self.__ui.actionPlayPause.triggered.connect(self.__do_play_or_pause)
     self.__ui.actionFullscreen.triggered.connect(self.__do_toggle_fullscreen)
     self.__ui.actionSideBar.triggered.connect(self.__do_toggle_side_bar)
+    self.__ui.actionAbout.triggered.connect(self.__do_show_credits)
+    self.__ui.actionAboutQt.triggered.connect(self.__do_show_qt_credits)
 
     self.__ui.vidWidget.setFocus()
 
@@ -87,6 +90,14 @@ class PlayerWindow(QMainWindow):
   @Slot(QMediaPlayer.Error, str)
   def __do_show_mp_err(self, err: QMediaPlayer.Error, strerror: str):
     QMessageBox.warning(self, 'An error occurred', strerror)
+
+  @Slot()
+  def __do_show_qt_credits(self):
+    QMessageBox.aboutQt(self)
+
+  @Slot()
+  def __do_show_credits(self):
+    AboutWindow(self).exec()
 
   @Slot()
   def __do_toggle_fullscreen(self):

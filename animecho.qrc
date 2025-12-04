@@ -1,0 +1,13 @@
+<RCC>
+  <qresource prefix="/animecho">
+    <file>qt_notice.html</file>
+    <file>qt_wasm_notice.html</file>
+    <file>libpng_notice.html</file>
+    <file>chromium_notice.html</file>
+    <file>ffmpeg_notice.html</file>
+    <file>pyside_notice.html</file>
+    <file>python_notice.html</file>
+    <file>icon.png</file>
+    <file>animecho.png</file>
+  </qresource>
+</RCC>

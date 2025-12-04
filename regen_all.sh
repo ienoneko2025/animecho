@@ -21,6 +21,7 @@ done
 
 dropout_forms=('player_window'
                'new_annotation_wizard'
+               'about_window'
                'loader_dlg')
 
 for dropout_form in "${dropout_forms[@]}"; do
@@ -34,6 +35,32 @@ for dropout_form in "${dropout_forms[@]}"; do
 
   (set -x && uic -g python -o "$dropout_out" "$dropout_src")
 done
+
+dropout_assets=('icon.png'
+                'animecho.png'
+                'python_notice.html'
+                'qt_notice.html'
+                'pyside_notice.html'
+                'ffmpeg_notice.html'
+                'chromium_notice.html'
+                'qt_wasm_notice.html'
+                'libpng_notice.html')
+
+function dropout_gen_assets ()
+{
+  (set -x && rcc -g python -o animecho_rc.py animecho.qrc)
+}
+
+if [ ! -e animecho_rc.py -o "$(which rcc)" -nt animecho_rc.py -o "$0" -nt animecho_rc.py -o animecho.qrc -nt animecho_rc.py ]; then
+  dropout_gen_assets
+else
+  for dropout_asset in "${dropout_assets[@]}"; do
+    if [ "$dropout_asset" -nt animecho_rc.py ]; then
+      dropout_gen_assets
+      break
+    fi
+  done
+fi
 
 dropout_static_web_files=('dialogue_view.wasm'
                           'dialogue_view.js'
